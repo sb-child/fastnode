@@ -1,23 +1,25 @@
 package main_test
 
 import (
+	"fmt"
 	"testing"
 
 	nodes "./core/nodes"
 )
 
 func testNode1() bool {
-	p1, p2, p3 := nodes.NodePoint{}, nodes.NodePoint{}, nodes.NodePoint{}
 	b1, b2 := nodes.NewNodeBody(), nodes.NewNodeBody()
-	ln1 := nodes.NodeLine{}
-	b1.InsertPoint(nodes.NODE_TYPE_OUTPUT, "o1", &p1)
-	b2.InsertPoint(nodes.NODE_TYPE_INPUT, "i1", &p2)
-	b2.InsertPoint(nodes.NODE_TYPE_OUTPUT, "o1", &p3)
+	ln1 := nodes.NewNodeLine()
+	b1.InsertPoint(nodes.NODE_TYPE_OUTPUT, "o1")
+	for i := 0; i < 100000; i++ {
+		b2.InsertPoint(nodes.NODE_TYPE_INPUT, fmt.Sprintf("i%d", i))
+		b2.InsertPoint(nodes.NODE_TYPE_OUTPUT, fmt.Sprintf("o%d", i))
+	}
 	temp1, ok := b1.GetPoint(nodes.NODE_TYPE_OUTPUT, "o1")
 	if !ok {
 		return false
 	}
-	temp2, ok := b2.GetPoint(nodes.NODE_TYPE_INPUT, "i1")
+	temp2, ok := b2.GetPoint(nodes.NODE_TYPE_INPUT, "i600")
 	if !ok {
 		return false
 	}
